@@ -1380,6 +1380,156 @@
               initSiteTabs();
               initUserTabs();
           };
+
+       // Script to update the SharePoint access data
+// This script adds the missing sites and users from the Excel file
+
+// New sites to add to the existing siteAccess object
+const newSites = {
+    "Allgroups": [
+        "Aashna Patel", "Andrew Perks", "Annie Pruys", "Anthony Kapetanovic", "Avneet Dhindsa",
+        "Bernard O'Connor", "Brylie Curran", "Chris Kapetanovic", "Christian Ghersi", "Daniel Basic",
+        "David Pitt", "Dimitri Poutakidis", "FIRST FINANCIAL PTY LTD", "Geoff Greetham",
+        "George Katrantzis", "Greig Barrow", "Helen He", "Jackie Cook", "James Birrell", "Jane Zhou",
+        "Joe Akiki", "Karen Horta", "Lauretta Dixon", "Marshall Owen", "Matthew Calderbank", "Mei Xue",
+        "Nickolas Reissis", "Peta Tobin", "Ray Sabarillo", "Rob Petrie", "Ruben Bock"
+    ],
+    "AllSalesTeam-c036c9b0-d80c-423b-afed-8642ce2d6076": [
+        "FIRST FINANCIAL PTY LTD", "Lisa Palmer", "Ryan Keenan"
+    ],
+    "AllStaff": [
+        "Aaron James", "Aaron Walshe", "Aashna Patel", "Adam Ezerins", "Adela Ngai", "Adrian Pelligra",
+        "Ali Smith", "Aljeanette Arenilla", "Amelia Rogers", "Amy Clarke", "Amy Ryczel", "Andrew Perks",
+        "Andrew Shavikin", "Angus Pond", "Annie Nguyen", "Annie Pruys", "Anthony Dhillon", "Anthony Gorra",
+        "Anthony Kapetanovic", "Avneet Dhindsa", "Ben Rossi", "Ben Traficante", "Bernard O'Connor",
+        "Brad Jackson", "Brad Tucker", "Brendan Smith", "Brylie Curran", "Cameron Santomartino",
+        "Charlee Geddis", "Charlene Sim", "Chester Ramos", "Chris Crough", "Chris Kapetanovic",
+        "Chris Pomaroff", "Christian Ghersi", "Christine Bau", "Christine Dorig", "Christy Kosasih",
+        "Dana Mihajlovic", "Dania Sin", "Daniel Basic", "Daniel Pollock", "Daniel Smith",
+        "David Howell", "David Jackson", "David Pitt", "David Studley", "Dimitri Poutakidis",
+        "Dionysia Catic", "Duncan Logie", "Edrian Damondamon", "Elesha Williams", "Emily Still",
+        "Emmanuel Casquejo", "Erona Anore", "Esha Desai", "Fiona Tobin", "FIRST FINANCIAL PTY LTD",
+        "Gabriella Loschiavo", "Gavin Colosimo", "Geoff Greetham", "George Katrantzis", "Georgia Caddy",
+        "Graeme Quinlan", "Greg Test", "Greig Barrow", "Harley Leslie", "Harry Terry", "Hayley Wong",
+        "Helen He", "Ilana Donde", "Iuliia Strygunova", "Jackie Cook", "Jaime Duckworth", "James Birrell",
+        "James Grixti", "James Wrigley", "Jan Anderson", "Jane Zhou", "Janine Orbeta", "Jason Rawlins",
+        "Jemuel Magtalas", "Jessica Farah", "Jillian Creek", "Jimmy Truong", "Jo Zhao", "Joe Akiki",
+        "Joel Gleeson", "Jonathan Henderson", "Joseph Tolich", "Josh Scipione", "Joshua Bielik",
+        "Julia Reid", "Julian Manning", "Karen Horta", "Karen Kung", "Karen Perfecto", "Kate Anderson",
+        "Kate Schell", "Katie Stevens", "Kavita Singh", "Kerri Engstrom", "Kianna Huangzhao",
+        "Kim Nguyen", "Lauretta Dixon", "Leah Campagnolo", "Lisa Palmer", "Lylyna Im", "Madeline Fernando",
+        "Manu Fernando", "Marc Wearne", "Maree Rykers", "Maria Oledan", "Marriel Ocharon", "Marshall Owen",
+        "Mary Delzoppo", "Matthew Benic", "Matthew Calderbank", "Matthew Magee", "Matthew Pecipajkovski",
+        "Mei Xue", "Michael Kemp", "Michele Kennedy", "Mitchell Calleja", "Naomi Lohanatha",
+        "Nathaniel Johnston", "Neetu Gandhi", "Nick Donato", "Nick Thomas", "Nickolas Reissis",
+        "Nicole Gullone", "Oliver Cahill", "Omar Manasfi", "ONGC Systems", "Pablo Vilela",
+        "Patrick Deltiglio", "Paul Cupic", "Paul Seidl", "Peta Tobin", "Peter White", "Rachel Douglas",
+        "Rebecca Ruck", "Rebekah Jacob", "Rob Petrie", "Robert Fletcher", "Roel Burghouwt", "Roi Turado",
+        "Ruben Bock", "Ryan Keenan", "Ryan McLean", "Ryan Sgarioto", "Sarah Nguyen", "Savita Dhillon",
+        "Scott Milligan", "Sean Curran", "Shaery Mae Magno Pato", "Shanaine Daan", "Sharelle Hudson",
+        "Sharon McAuslan", "Shaun Albert", "Stefanie Falleti", "Telesia Szegedi", "Tim Hunter",
+        "Tracey Zamora", "Vincent Aw", "Vivek Mishra", "Welkin Admin", "William Hume", "Yasmin Gibson-Hutton",
+        "Zac McGlone"
+    ],
+    "ALSLaunchCampaign": ["FIRST FINANCIAL PTY LTD"],
+    "apa-practice-management": [
+        "Akambo Financial Group Accounts", "Akambo Operations", "Annie Pruys", "Anthony Kapetanovic",
+        "Bernard O'Connor", "Brenton Ebinger", "Brylie Curran", "Chris Kapetanovic", "Chris Willaton",
+        "Christian Ghersi", "David Pitt", "FIRST FINANCIAL PTY LTD", "george", "Grace Robinson",
+        "Helen He", "James Bonasera", "Jane Zhou", "Jason Rawlins", "Jessica Farah", "Jillian Creek",
+        "Jimmy Truong", "Joe Akiki", "Karen Horta", "Katie Stevens", "Lisa Palmer", "Maree Rykers",
+        "Marshall Owen", "Matthew Calderbank", "Natalie Vienet", "Neetu Gandhi", "Nickolas Reissis",
+        "Peta Tobin", "Rebecca", "Rebecca Ruck", "Rob Petrie", "Tracey Zamora", "Welkin Admin"
+    ],
+    "Apps": [
+        "Aaron James", "Aaron Walshe", "Aashna Patel", "Abigail Gunarso", "Adam Ezerins", "Adela Ngai", 
+        "Adrian Pelligra", "Ali Smith", "Amelia Rogers", "Amy Clarke", "Andrew Perks", "Anthony Dhillon", 
+        "Anthony Gorra", "Anthony Kapetanovic", "Ben Moyle", "Ben Rossi", "Ben Traficante", 
+        "Bernard O'Connor", "Brad Jackson", "Brad Tucker", "Brenton Ebinger", "Brylie Curran", 
+        "Charlene Sim", "Chester Ramos", "Chris Crough", "Chris Kapetanovic", "Christian Ghersi", 
+        "Daniel Basic", "Daniel Pollock", "Daniel Smith", "David Howell", "David Jackson", 
+        "Dimitri Poutakidis", "Dion", "Duncan Logie", "Esha Desai", "FIRST FINANCIAL PTY LTD", 
+        "Gavin Colosimo", "Geoff Greetham", "George Katrantzis", "Grace Robinson", "Greig Barrow", 
+        "Gwynn Kijkanakorn", "Helen He", "Jackie Cook", "James Birrell", "James Grixti", "Jane Zhou", 
+        "Jason Croft", "Jason Rawlins", "Jo Zhao", "Joe Akiki", "Joel Gleeson", "Josh Scipione", 
+        "Julian Manning", "Karen Horta", "Kate Schell", "Katie Stevens", "Lauretta Dixon", 
+        "Lisa Palmer", "Lylyna Im", "Maree Rykers", "Marshall Owen", "Matthew Calderbank", 
+        "Matthew Magee", "Mattias Rose", "Mei Xue", "Michele Kennedy", "Mitchell Calleja", 
+        "Natalie Vienet", "Neetu Gandhi", "Nick Donato", "Nick Thomas", "Nickolas Reissis", 
+        "Nigel Judd", "Pablo Vilela", "Peta Tobin", "Peter White", "Rebecca Ruck", "Rob Petrie", 
+        "Roel Burghouwt", "Ruben Bock", "Ryan Keenan", "Ryan Sgarioto", "Scott Milligan", 
+        "Shaun Albert", "Welkin Admin"
+    ],
+    "CSTeam": [
+        "Ali Smith", "Aljeanette Arenilla", "Amy Ryczel", "Belinda Li On Wing", "Charlee Geddis", 
+        "Christine Bau", "Chester Ramos", "Christine Dorig", "Dion", "Edrian Damondamon", 
+        "Emmanuel Casquejo", "Erona Anore", "FIRST FINANCIAL PTY LTD", "Georgia Caddy", 
+        "Husnia Noori", "Jan Andersen", "Janine Orbeta", "Jemuel Magtalas", "Jennifer Youkhana", 
+        "John Kypreos", "Karen Kung", "Kavita Singh", "Kerri Engstrom", "Kim Nguyen", 
+        "Madeline Fernando", "Marc Wearne", "Maria Oledan", "Marriel Ocharon", "Mary Delzoppo", 
+        "Naomi Lohanatha", "Nash Hove", "Nuwan Rodrigo", "Oliver Cahill", "Omar Manasfi", 
+        "Petar Cvetkovski", "Rachel Douglas", "Ryan Keenan", "Scott Milligan", "Shanaine Daan", 
+        "Sharelle Hudson", "Tim Hunter", "Yasmin Gibson-Hutton"
+    ],
+    "DailyTasks": ["FIRST FINANCIAL PTY LTD"],
+    "DJPod": [
+        "Adela Ngai", "Anthony Dhillon", "Chris Pomaroff", "David Jackson", "Graeme Quinlan", 
+        "Jo Zhao", "Joel Gleeson", "Joseph Tolich", "Nick Donato", "William Hume"
+    ],
+    "Documentsre-branding": ["FIRST FINANCIAL PTY LTD"],
+    "documentsre-branding2": ["Marshall Owen"],
+    "DreamTeam": ["Chris Crough", "Matthew Benic", "Ryan Sgarioto", "Yasmin Gibson-Hutton"],
+    "DreamTeamInvestmentBT": ["FIRST FINANCIAL PTY LTD"],
+    "DreamTeamInvestmentBT2": ["FIRST FINANCIAL PTY LTD", "Marshall Owen", "Ruben Bock"],
+    "duediligencesharepointaccess": ["FIRST FINANCIAL PTY LTD", "Jillian Creek"],
+    "DuncansTasks": ["FIRST FINANCIAL PTY LTD"],
+    "DYEEB": ["FIRST FINANCIAL PTY LTD"],
+    "DYEEB2": ["FIRST FINANCIAL PTY LTD"],
+    "EA-Office-Manager-Sharepoint-access": ["Jillian Creek"],
+    "EK47Action": ["FIRST FINANCIAL PTY LTD"],
+    "EventPlanningChecklist": ["FIRST FINANCIAL PTY LTD"],
+    "ExampleHomeTopic": ["First Financial Merit Admin", "FIRST FINANCIAL PTY LTD", "Katie Stevens"]
+};
+
+// Function to update the site access data
+function updateSiteAccess() {
+    // Add new sites to the siteAccess object
+    Object.keys(newSites).forEach(siteName => {
+        if (!siteAccess[siteName]) {
+            siteAccess[siteName] = [];
+        }
+        
+        // Add users who aren't already in the site
+        newSites[siteName].forEach(userName => {
+            if (!siteAccess[siteName].includes(userName)) {
+                siteAccess[siteName].push(userName);
+            }
+        });
+    });
+    
+    // Update the userAccess reverse mapping
+    const userAccess = {};
+    Object.keys(siteAccess).forEach(siteName => {
+        siteAccess[siteName].forEach(userName => {
+            if (!userAccess[userName]) {
+                userAccess[userName] = [];
+            }
+            if (!userAccess[userName].includes(siteName)) {
+                userAccess[userName].push(siteName);
+            }
+        });
+    });
+    
+    // Reinitialize the tabs
+    initSiteTabs();
+    initUserTabs();
+    
+    // Show confirmation message
+    alert("SharePoint access data has been updated successfully!");
+}
+
+// Call the update function when the script is loaded
+updateSiteAccess();
       </script>
   </body>
   </html>
